@@ -40,9 +40,27 @@ public class LFU {
         for (Map.Entry<Integer, Integer> element : mapOfPages.entrySet()) {
             
             if(element.getKey() != page){
-                int value = element.getValue();
+                Integer value = element.getValue();
                 element.setValue(value - 1);
             }
+        }
+    }
+
+    private void SortColon(Vector<Integer> colon){
+
+        for(int i = 0; i < colon.size() - 1; i++){
+            for(int j = i + 1; j < colon.size(); j++){
+
+                if(mapOfPages.get(colon.elementAt(i)) > mapOfPages.get(colon.elementAt(j))){
+                    Integer tmp1 = colon.elementAt(i);
+                    Integer tmp2 = colon.elementAt(j);
+                    colon.remove(j);
+                    colon.add(j, tmp1);
+                    colon.remove(i);
+                    colon.add(i, tmp2);
+    
+                }
+            }   
         }
     }
 
@@ -60,8 +78,8 @@ public class LFU {
             if(tmp.contains(memory.GetReferences().elementAt(i))){
                 pageFaults.add("/ ");
 
-                Integer value = mapOfPages.get(memory.GetReferences().elementAt(i)) + 4;
-                mapOfPages.put(memory.GetReferences().elementAt(i), value);
+                Integer value = mapOfPages.get(memory.GetReferences().elementAt(i));
+                mapOfPages.put(memory.GetReferences().elementAt(i), value + 4);
             }
             else{
                 if(tmp.size() == memory.GetNumberOfFrames()){
@@ -77,7 +95,7 @@ public class LFU {
             }
 
             UpdateMap(memory.GetReferences().elementAt(i));
-
+            SortColon(tmp);
             matrix.add(tmp);
         }
     }

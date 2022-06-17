@@ -33,6 +33,7 @@ public class Optimal {
         firstElement.add(memory.GetReferences().elementAt(0));
         matrix.add(firstElement);
         pageFaults.add("PF");
+        Integer position = -1;
 
         for(int i = 1; i < memory.GetNumberOfReferences(); i++){
 
@@ -60,10 +61,16 @@ public class Optimal {
                     }
 
                     Integer element = GetMaxDistance(distance);
+                    position = tmp.indexOf(element);
                     tmp.removeElement(element);
                 }
                 
-                tmp.add(memory.GetReferences().elementAt(i));
+                if(position == -1){
+                    tmp.add(memory.GetReferences().elementAt(i));
+                }
+                else{
+                    tmp.add(position, memory.GetReferences().elementAt(i));
+                }
                 pageFaults.add("PF");
                 numberOfPF++;
 
